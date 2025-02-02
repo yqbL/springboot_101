@@ -26,9 +26,9 @@ public class UserService {
         return userRepository.findByPhone(phone)!= null;
     }
 
-    public User register(String phone, String password, String userRole) {
-        // 创建新用户并保存到数据库，同时设置用户角色
-        User user = new User(phone, password, userRole);
+    public User register(String phone, String password, String role) {
+        // 创建新用户并保存到数据库
+        User user = new User(phone, password, role);
         return userRepository.save(user);
     }
 

@@ -10,18 +10,13 @@ public class MedicineOrderDTO {
     private List<MedicineItemDTO> items;
     private Long userId;
     private String userPhone;
-    private Long doctorId;
-    private String doctorName;
 
-    public MedicineOrderDTO(Long id, Date time, String hospital, List<MedicineItemDTO> items, Long userId, String userPhone, Long doctorId, String doctorName) {
+    public MedicineOrderDTO(Long id, String hospital, List<MedicineItemDTO> items, Long userId, String userPhone) {
         this.id = id;
-        this.time = time;
         this.hospital = hospital;
         this.items = items;
         this.userId = userId;
         this.userPhone = userPhone;
-        this.doctorId = doctorId;
-        this.doctorName = doctorName;
     }
 
     // Getters 和 Setters
@@ -73,19 +68,4 @@ public class MedicineOrderDTO {
         this.userPhone = userPhone;
     }
 
-    public Long getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(Long doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public String getDoctorName() {
-        return doctorName;
-    }
-
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
 }

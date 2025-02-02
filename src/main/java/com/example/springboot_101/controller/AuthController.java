@@ -95,7 +95,7 @@ public class AuthController {
                 return ResponseEntity.badRequest().body(response);
             }
 
-            // 根据用户角色获取药单列表
+            // 根据用户角色获取药单列表w
             List<MedicineOrder> medicineOrders;
             if ("1".equals(currentUser.getRole())) { // 医生角色
                 medicineOrders = medicineOrderService.getAllMedicineOrders();
@@ -143,51 +143,5 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/medicine-order/create")
-    public ResponseEntity<Map<String, Object>> createMedicineOrder(@RequestHeader("doctorId") Long doctorId,
-                                                                   @RequestHeader("userId") Long userId,
-                                                                   @RequestBody List<MedicineItemDTO> medicineItemDTOs) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            List<MedicineItem> medicineItems = medicineItemDTOs.stream()
-                    .map(DtoConverter::convertToMedicineItem)
-                    .collect(Collectors.toList());
-
-            MedicineOrder medicineOrder = medicineOrderService.createMedicineOrder(userId, doctorId, medicineItems);
-            MedicineOrderDTO medicineOrderDTO = DtoConverter.convertToMedicineOrderDTO(medicineOrder);
-
-            response.put("success", true);
-            response.put("message", "药单创建成功");
-            response.put("data", medicineOrderDTO);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "药单创建失败：" + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
-    }
-
-    @GetMapping("/medicine-order/doctor/{doctorId}")
-    public ResponseEntity<Map<String, Object>> getMedicineOrdersByDoctorId(@PathVariable Long doctorId) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            List<MedicineOrder> medicineOrders = medicineOrderService.getMedicineOrdersByDoctorId(doctorId);
-            List<MedicineOrderDTO> medicineOrderDTOs = DtoConverter.convertToMedicineOrderDTOList(medicineOrders);
-
-            if (medicineOrderDTOs.isEmpty()) {
-                response.put("success", false);
-                response.put("message", "暂无药单数据");
-            } else {
-                response.put("success", true);
-                response.put("message", "获取药单列表成功");
-                response.put("data", medicineOrderDTOs);
-            }
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "获取药单列表失败：" + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
-    }
 
 }

@@ -22,27 +22,6 @@ public class MedicineOrder {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor; // 关联医生
-    private Date orderTime; // 开药时间
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public Date getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
-    }
-
     // Getters and Setters
     public Long getId() {
         return id;

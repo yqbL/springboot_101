@@ -6,24 +6,17 @@ import java.util.List;
 
 @Entity
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String phone;
     private String password;
-    private String role; // 1 代表医生 0 代表普通用户
-    private String name;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Doctor doctor;
+    private String role;
 
     // 可以添加与 MedicineOrder 的关联关系，这里使用 OneToMany 表示一个用户可以有多个药单
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MedicineOrder> medicineOrders;
-
-
 
     // 默认构造方法
     public User() {
@@ -34,7 +27,6 @@ public class User {
         this.phone = phone;
         this.password = password;
         this.role = role;
-        this.name = name;
     }
 
     // Getter 和 Setter
@@ -68,14 +60,6 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     // 新增 MedicineOrders 的 Getter 和 Setter
