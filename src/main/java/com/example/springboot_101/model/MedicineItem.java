@@ -1,5 +1,6 @@
 package com.example.springboot_101.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,10 +15,10 @@ public class MedicineItem {
     private String chemicalName;
     private String dose;
     private String time;
-    private String status;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnore  // 忽略序列化这个字段，防止死循环
     private MedicineOrder medicineOrder;
 
     // Getters and Setters
@@ -59,14 +60,6 @@ public class MedicineItem {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public MedicineOrder getMedicineOrder() {

@@ -42,8 +42,8 @@ public class DtoConverter {
                 medicineItem.getProductName(),
                 medicineItem.getChemicalName(),
                 medicineItem.getDose(),
-                medicineItem.getTime(),
-                medicineItem.getStatus()
+                medicineItem.getTime()
+//                medicineItem.getStatus()
         );
     }
 
@@ -68,7 +68,7 @@ public class DtoConverter {
         medicineItem.setChemicalName(medicineItemDTO.getChemicalName());
         medicineItem.setDose(medicineItemDTO.getDose());
         medicineItem.setTime(medicineItemDTO.getTime());
-        medicineItem.setStatus(medicineItemDTO.getStatus());
+//        medicineItem.setStatus(medicineItemDTO.getStatus());
         return medicineItem;
     }
 }

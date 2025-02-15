@@ -2,6 +2,8 @@ package com.example.springboot_101.model;
 
 import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +18,7 @@ public class MedicineOrder {
     private String hospital;
 
     @OneToMany(mappedBy = "medicineOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore  // 忽略序列化这个字段，防止死循环
     private List<MedicineItem> items;
 
     @ManyToOne

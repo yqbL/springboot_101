@@ -6,19 +6,19 @@ public class MedicineItemDTO {
     private String chemicalName;
     private String dose;
     private String time;
-    private String status;
+//    private String status;
 
     // 构造函数
     public MedicineItemDTO() {
     }
 
-    public MedicineItemDTO(Long id, String productName, String chemicalName, String dose, String time, String status) {
+    public MedicineItemDTO(Long id, String productName, String chemicalName, String dose, String time) {
         this.id = id;
         this.productName = productName;
         this.chemicalName = chemicalName;
         this.dose = dose;
         this.time = time;
-        this.status = status;
+//        this.status = status;
     }
 
     // Getters 和 Setters
@@ -62,11 +62,11 @@ public class MedicineItemDTO {
         this.time = time;
     }
 
-    public String getStatus() {
-        return status;
-    }
+//    public String getStatus() {
+//        return status;
+//    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
 }

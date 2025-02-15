@@ -45,7 +45,10 @@ public class AuthController {
         return ResponseEntity.ok(Map.of(
                 "success", true,
                 "message", "登录成功",
-                "data", Map.of("userId", user.getId())
+                "data", Map.of(
+                        "userId", user.getId(),
+                        "userRole",user.getRole()
+                )
         ));
     }
 
@@ -142,6 +145,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 
 
 }
