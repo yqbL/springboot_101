@@ -9,6 +9,7 @@ import com.example.springboot_101.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Service
@@ -32,7 +33,7 @@ public class MedicineItemService {
     }
 
 
-    public MedicineItem createMedicineItem(Long userId, MedicineItemDTO itemDTO) {
+    public MedicineItem createMedicineItem(Long userId, MedicineItemDTO itemDTO) throws ParseException {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("用户不存在"));
 
         User patient = userRepository.findById(itemDTO.getId()).orElseThrow(() -> new RuntimeException("患者不存在"));

@@ -14,7 +14,7 @@ public class MedicineOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String time;
+    private Date time;
     private String hospital;
 
     @OneToMany(mappedBy = "medicineOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -34,11 +34,11 @@ public class MedicineOrder {
         this.id = id;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
@@ -48,14 +48,6 @@ public class MedicineOrder {
 
     public void setHospital(String hospital) {
         this.hospital = hospital;
-    }
-
-    public List<MedicineItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<MedicineItem> items) {
-        this.items = items;
     }
 
     // 新增 User 的 Getter 和 Setter

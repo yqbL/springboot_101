@@ -6,30 +6,35 @@ import com.example.springboot_101.model.MedicineItem;
 import com.example.springboot_101.model.MedicineOrder;
 import com.example.springboot_101.model.User;
 
+import javax.xml.crypto.Data;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DtoConverter {
 
     public static MedicineOrderDTO convertToMedicineOrderDTO(MedicineOrder medicineOrder) {
-        if (medicineOrder == null) {
-            return null;
-        }
-        List<MedicineItemDTO> itemDTOs = new ArrayList<>();
-        if (medicineOrder.getItems() != null) {
-            for (MedicineItem item : medicineOrder.getItems()) {
-                itemDTOs.add(convertToMedicineItemDTO(item));
-            }
-        }
+
+        String hospital = medicineOrder.getHospital();
         User user = medicineOrder.getUser();
         Long userId = user != null? user.getId() : null;
         String userPhone = user != null? user.getPhone() : null;
+        Date time = medicineOrder.getTime();
+
+        // 格式化时间
+        String formattedTime = null;
+        if (time != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
+            formattedTime = dateFormat.format(time);
+        }
+
         return new MedicineOrderDTO(
                 medicineOrder.getId(),
-                null, // 这里假设 hospital 暂时不需要处理
-                itemDTOs,
+                hospital,
                 userId,
-                userPhone
+                userPhone,
+                formattedTime // 返回格式化后的时间字符串
         );
     }
 
@@ -43,14 +48,11 @@ public class DtoConverter {
                 medicineItem.getChemicalName(),
                 medicineItem.getDose(),
                 medicineItem.getTime()
-//                medicineItem.getStatus()
         );
     }
 
     public static List<MedicineOrderDTO> convertToMedicineOrderDTOList(List<MedicineOrder> medicineOrders) {
-        if (medicineOrders == null) {
-            return null;
-        }
+
         List<MedicineOrderDTO> medicineOrderDTOs = new ArrayList<>();
         for (MedicineOrder medicineOrder : medicineOrders) {
             medicineOrderDTOs.add(convertToMedicineOrderDTO(medicineOrder));
@@ -59,16 +61,14 @@ public class DtoConverter {
     }
 
     public static MedicineItem convertToMedicineItem(MedicineItemDTO medicineItemDTO) {
-        if (medicineItemDTO == null) {
-            return null;
-        }
+
         MedicineItem medicineItem = new MedicineItem();
         medicineItem.setId(medicineItemDTO.getId());
         medicineItem.setProductName(medicineItemDTO.getProductName());
         medicineItem.setChemicalName(medicineItemDTO.getChemicalName());
         medicineItem.setDose(medicineItemDTO.getDose());
         medicineItem.setTime(medicineItemDTO.getTime());
-//        medicineItem.setStatus(medicineItemDTO.getStatus());
+
         return medicineItem;
     }
 }

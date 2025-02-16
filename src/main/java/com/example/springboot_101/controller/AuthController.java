@@ -5,6 +5,7 @@ import com.example.springboot_101.dto.MedicineOrderDTO;
 import com.example.springboot_101.model.MedicineItem;
 import com.example.springboot_101.model.MedicineOrder;
 import com.example.springboot_101.model.User;
+import com.example.springboot_101.service.MedicineItemService;
 import com.example.springboot_101.service.MedicineOrderService;
 import com.example.springboot_101.service.UserService;
 import com.example.springboot_101.util.DtoConverter;
@@ -26,6 +27,8 @@ public class AuthController {
 
     @Autowired
     private MedicineOrderService medicineOrderService;
+    @Autowired
+    private MedicineItemService medicineItemService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
@@ -84,37 +87,22 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> getAllMedicineOrders(@RequestHeader("userId") Long userId) {
         Map<String, Object> response = new HashMap<>();
         try {
-            // 进行权限验证，这里只是简单示例，实际情况可能需要更复杂的逻辑
-            if (userId == null) {
-                response.put("success", false);
-                response.put("message", "用户 ID 不能为空");
-                return ResponseEntity.badRequest().body(response);
-            }
 
             User currentUser = userService.findById(userId);
-            if(currentUser == null) {
-                response.put("success", false);
-                response.put("message", "用户不存在");
-                return ResponseEntity.badRequest().body(response);
-            }
 
             // 根据用户角色获取药单列表w
             List<MedicineOrder> medicineOrders;
-            if ("1".equals(currentUser.getRole())) { // 医生角色
+            if ("1".equals(currentUser.getRole())) { // 医生角色 1
                 medicineOrders = medicineOrderService.getAllMedicineOrders();
-            } else { // 普通用户角色
+            } else { // 普通用户角色 0
                 medicineOrders = medicineOrderService.getMedicineOrdersByUserId(userId);
             }
 
             List<MedicineOrderDTO> medicineOrderDTOs = DtoConverter.convertToMedicineOrderDTOList(medicineOrders);
-            if (medicineOrderDTOs.isEmpty()) {
-                response.put("success", false);
-                response.put("message", "暂无药单数据");
-            } else {
-                response.put("success", true);
-                response.put("message", "获取药单列表成功");
-                response.put("data", medicineOrderDTOs);
-            }
+            response.put("success", true);
+            response.put("message", "获取药单列表成功");
+            response.put("data", medicineOrderDTOs);
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("success", false);
@@ -128,24 +116,24 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> getMedicineOrder(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         try {
-            MedicineOrder medicineOrder = medicineOrderService.getMedicineOrderById(id);
-            if (medicineOrder == null) {
-                response.put("success", false);
-                response.put("message", "未找到该药单");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+
+            // 获取所有药单项
+            List<MedicineItem> medicineItems = medicineItemService.getMedicineItemsByOrderId(id);
+            List<MedicineItemDTO> medicineItemDTOList = new ArrayList<>();
+            for (MedicineItem medicineItem : medicineItems) {
+                MedicineItemDTO medicineItemDTO = DtoConverter.convertToMedicineItemDTO(medicineItem);
+                medicineItemDTOList.add(medicineItemDTO);
             }
-            MedicineOrderDTO medicineOrderDTO = DtoConverter.convertToMedicineOrderDTO(medicineOrder);
             response.put("success", true);
             response.put("message", "获取药单详情成功");
-            response.put("data", medicineOrderDTO);
+            response.put("data", medicineItemDTOList);
             return ResponseEntity.ok(response);
+
         } catch (Exception e) {
             response.put("success", false);
             response.put("message", "获取药单详情过程中出现错误，请稍后重试");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
-
 
 }

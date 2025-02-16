@@ -6,7 +6,6 @@ public class MedicineItemDTO {
     private String chemicalName;
     private String dose;
     private String time;
-//    private String status;
 
     // 构造函数
     public MedicineItemDTO() {
@@ -18,7 +17,6 @@ public class MedicineItemDTO {
         this.chemicalName = chemicalName;
         this.dose = dose;
         this.time = time;
-//        this.status = status;
     }
 
     // Getters 和 Setters

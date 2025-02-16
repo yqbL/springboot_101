@@ -5,18 +5,17 @@ import java.util.List;
 
 public class MedicineOrderDTO {
     private Long id;
-    private Date time;
+    private String time;
     private String hospital;
-    private List<MedicineItemDTO> items;
     private Long userId;
     private String userPhone;
 
-    public MedicineOrderDTO(Long id, String hospital, List<MedicineItemDTO> items, Long userId, String userPhone) {
+    public MedicineOrderDTO(Long id, String hospital, Long userId, String userPhone,String time) {
         this.id = id;
         this.hospital = hospital;
-        this.items = items;
         this.userId = userId;
         this.userPhone = userPhone;
+        this.time = time;
     }
 
     // Getters 和 Setters
@@ -28,11 +27,11 @@ public class MedicineOrderDTO {
         this.id = id;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -42,14 +41,6 @@ public class MedicineOrderDTO {
 
     public void setHospital(String hospital) {
         this.hospital = hospital;
-    }
-
-    public List<MedicineItemDTO> getItems() {
-        return items;
-    }
-
-    public void setItems(List<MedicineItemDTO> items) {
-        this.items = items;
     }
 
     public Long getUserId() {

@@ -48,7 +48,7 @@ public class MedicineItemController {
             // 创建 MedicineOrder
             MedicineOrder medicineOrder = new MedicineOrder();
             medicineOrder.setUser(user);
-            medicineOrder.setTime(new Date().toString());
+            medicineOrder.setTime(new Date());
             medicineOrder.setHospital("中日友好医院"); // 根据需求设置医院名
             medicineOrder = medicineOrderService.saveMedicineOrder(medicineOrder);  // 保存药单
 
