@@ -32,6 +32,10 @@ public class MedicineItemService {
         return medicineItemRepository.save(medicineItem);
     }
 
+//    public List<MedicineItem> findMedicineOrderById(Long id) {
+//        return medicineItemRepository.findByMedicineOrderId(id);
+//    }
+
 
     public MedicineItem createMedicineItem(Long userId, MedicineItemDTO itemDTO) throws ParseException {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("用户不存在"));
@@ -51,24 +55,5 @@ public class MedicineItemService {
 
         return medicineItemRepository.save(medicineItem);
     }
-
-    public MedicineItem updateMedicineItem(Long userId, Long itemId, MedicineItemDTO itemDTO) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("用户不存在"));
-        if (!"1".equals(user.getRole())) {
-            throw new RuntimeException("当前用户无权限");
-        }
-
-        MedicineItem existingItem = medicineItemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("药品信息不存在"));
-
-        existingItem.setProductName(itemDTO.getProductName());
-        existingItem.setChemicalName(itemDTO.getChemicalName());
-        existingItem.setDose(itemDTO.getDose());
-        existingItem.setTime(itemDTO.getTime());
-//        existingItem.setStatus(itemDTO.getStatus());
-
-        return medicineItemRepository.save(existingItem);
-    }
-
-
 
 }

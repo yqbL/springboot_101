@@ -78,24 +78,36 @@ public class MedicineItemController {
         }
     }
 
-    @PutMapping("/update/{itemId}")
-    public ResponseEntity<Map<String, Object>> updateMedicineItem(
-            @RequestHeader("userId") Long userId,
-            @PathVariable Long itemId,
-            @RequestBody MedicineItemDTO itemDTO) {
+    @PutMapping("/update/{orderId}")
+    public ResponseEntity<Map<String, Object>> updateMedicineItems(
+            @PathVariable Long orderId,
+            @RequestBody List<MedicineItemDTO> medicineItemDTOs
+    ) {
         Map<String, Object> response = new HashMap<>();
         try {
-            MedicineItem updatedItem = medicineItemService.updateMedicineItem(userId, itemId, itemDTO);
+
+            List<MedicineItem> medicineItems = medicineItemService.getMedicineItemsByOrderId(orderId);
+
+            for (MedicineItemDTO dto : medicineItemDTOs) {
+                for (MedicineItem medicineItem : medicineItems) {
+                    if (medicineItem.getId().equals(dto.getId())) {
+                        medicineItem.setProductName(dto.getProductName());
+                        medicineItem.setChemicalName(dto.getChemicalName());
+                        medicineItem.setDose(dto.getDose());
+                        medicineItem.setTime(dto.getTime());
+                        medicineItemService.saveMedicineItem(medicineItem);
+                    }
+                }
+            }
 
             response.put("success", true);
             response.put("message", "药品信息更新成功");
-            response.put("data", updatedItem);
             return ResponseEntity.ok(response);
-
         } catch (Exception e) {
             response.put("success", false);
-            response.put("message", "更新药品信息时出错: " + e.getMessage());
+            response.put("message", "更新药品信息失败");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 }
